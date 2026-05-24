@@ -8,6 +8,9 @@ def main():
     pygame.init()
     # Create game window
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+    # Create game clock
+    clock = pygame.time.Clock()
+    dt = 0.0
 
     while True:
         # Log current game state
@@ -17,10 +20,13 @@ def main():
             # Exit game when window is closed
             if event.type == pygame.QUIT:
                 return
-        # Fill screen with black
+        # Fill screen with b1ack
         screen.fill("black")
         # Update display
         pygame.display.flip()
+        # Limit FPS and calculate delta time
+        dt = clock.tick(60) / 1000
+        # print(dt)
 
     # print(f"Starting Asteroids with pygame version: {pygame.version.ver}")
     # print(f"Screen width: {SCREEN_WIDTH}")
