@@ -1,6 +1,7 @@
 import pygame
 from constants import *
 from logger import log_state
+from player import Player
 
 
 def main():
@@ -11,6 +12,8 @@ def main():
     # Create game clock
     clock = pygame.time.Clock()
     dt = 0.0
+    # Create player object
+    player = Player(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)
 
     while True:
         # Log current game state
@@ -22,6 +25,8 @@ def main():
                 return
         # Fill screen with b1ack
         screen.fill("black")
+        # Render player each frame
+        player.draw(screen)
         # Update display
         pygame.display.flip()
         # Limit FPS and calculate delta time
