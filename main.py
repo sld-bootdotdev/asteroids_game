@@ -23,6 +23,8 @@ def main():
             # Exit game when window is closed
             if event.type == pygame.QUIT:
                 return
+
+        # Receive input for player action
         player.update(dt)
         # Fill screen with b1ack
         screen.fill("black")
