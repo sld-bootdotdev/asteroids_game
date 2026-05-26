@@ -2,6 +2,8 @@ import pygame
 from constants import *
 from logger import log_state
 from player import Player
+from asteroid import Asteroid
+from asteroidfield import AsteroidField
 
 
 def main():
@@ -17,12 +19,27 @@ def main():
     # Delta time keeps movement and rotation consistent across different FPS
     dt = 0.0
 
-    # Create groups for updatable and drawable objects
+    # Store objects that need update logic every frame
     updatable = pygame.sprite.Group()
+
+    # Store objects that should be rendered on the screen
     drawable = pygame.sprite.Group()
+
+    # Store all asteroid objects
+    asteroids = pygame.sprite.Group()
 
     # Tell Player which sprite groups new player objects should join automatically
     Player.containers = (updatable, drawable)
+
+    # Tell Asteroid which groups new asteroid objects should join automatically
+    Asteroid.containers = (asteroids, updatable, drawable)
+
+    # Tell AsteroidField to join only the updatable group
+    # AsteroidField updates/spawns asteroids but does not draw anything itself
+    AsteroidField.containers = updatable
+
+    # Create asteroid spawner object
+    asteroid_field = AsteroidField()
 
     # Create player object
     player = Player(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)
