@@ -7,38 +7,53 @@ from player import Player
 def main():
     # Initialize Pygame
     pygame.init()
+
     # Create game window
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+
     # Create game clock
     clock = pygame.time.Clock()
+
+    # Delta time keeps movement and rotation consistent across different FPS
     dt = 0.0
+
+    # Create groups for updatable and drawable objects
+    updatable = pygame.sprite.Group()
+    drawable = pygame.sprite.Group()
+
+    # Tell Player which sprite groups new player objects should join automatically
+    Player.containers = (updatable, drawable)
+
     # Create player object
     player = Player(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)
 
     while True:
         # Log current game state
         log_state()
+
         # Processing event queue
         for event in pygame.event.get():
             # Exit game when window is closed
             if event.type == pygame.QUIT:
                 return
 
-        # Receive input for player action
-        player.update(dt)
-        # Fill screen with b1ack
+        # Update all objects in the updatable group
+        # Pass dt so movement and rotation stay framerate independent
+        updatable.update(dt)
+
+        # Fill screen with black before drawing new frame
         screen.fill("black")
-        # Render player each frame
-        player.draw(screen)
+
+        # Loop through every object stored in the drawable group
+        for obj in drawable:
+            # Call each object's draw method to render it on the screen
+            obj.draw(screen)
+
         # Update display
         pygame.display.flip()
+
         # Limit FPS and calculate delta time
         dt = clock.tick(60) / 1000
-        # print(dt)
-
-    # print(f"Starting Asteroids with pygame version: {pygame.version.ver}")
-    # print(f"Screen width: {SCREEN_WIDTH}")
-    # print(f"Screen height: {SCREEN_HEIGHT}")
 
 
 if __name__ == "__main__":
