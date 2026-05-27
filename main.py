@@ -4,6 +4,8 @@ from logger import log_state
 from player import Player
 from asteroid import Asteroid
 from asteroidfield import AsteroidField
+from logger import log_event
+import sys
 
 
 def main():
@@ -60,6 +62,13 @@ def main():
 
         # Fill screen with black before drawing new frame
         screen.fill("black")
+
+        for obj in asteroids:
+            # Check if asteroid collides with the player
+            if obj.collides_with(player):
+                log_event("player_hit")
+                print("Game over!")
+                sys.exit()
 
         # Loop through every object stored in the drawable group
         for obj in drawable:

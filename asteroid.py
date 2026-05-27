@@ -1,6 +1,5 @@
 import pygame
 from circleshape import CircleShape
-from player import Player
 from constants import LINE_WIDTH
 
 
