@@ -4,6 +4,7 @@ from logger import log_state
 from player import Player
 from asteroid import Asteroid
 from asteroidfield import AsteroidField
+from shot import Shot
 from logger import log_event
 import sys
 
@@ -30,15 +31,21 @@ def main():
     # Store all asteroid objects
     asteroids = pygame.sprite.Group()
 
+    # Store all shots objects
+    shots = pygame.sprite.Group()
+
     # Tell Player which sprite groups new player objects should join automatically
     Player.containers = (updatable, drawable)
 
     # Tell Asteroid which groups new asteroid objects should join automatically
     Asteroid.containers = (asteroids, updatable, drawable)
 
+    # Tell Shot which groups new shots objects should join automatically
+    Shot.containers = (shots, updatable, drawable)
+
     # Tell AsteroidField to join only the updatable group
     # AsteroidField updates/spawns asteroids but does not draw anything itself
-    AsteroidField.containers = updatable
+    AsteroidField.containers = (updatable,)
 
     # Create asteroid spawner object
     asteroid_field = AsteroidField()
@@ -64,6 +71,7 @@ def main():
         screen.fill("black")
 
         for obj in asteroids:
+            print(type(obj))
             # Check if asteroid collides with the player
             if obj.collides_with(player):
                 log_event("player_hit")
