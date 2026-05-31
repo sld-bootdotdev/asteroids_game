@@ -6,27 +6,34 @@ class CircleShape(pygame.sprite.Sprite):
     containers: tuple[pygame.sprite.Group, ...]
 
     def __init__(self, x: float, y: float, radius: float) -> None:
-        # we will be using this later
+
+        # Automatically add object to assigned sprite groups
         if hasattr(self, "containers"):
             super().__init__(*self.containers)
         else:
             super().__init__()
 
+        # Store object position
         self.position: pygame.Vector2 = pygame.Vector2(x, y)
+
+        # Default movement vector
         self.velocity = pygame.Vector2(0, 0)
+
+        # Collision and drawing radius
         self.radius = radius
 
     def draw(self, screen: pygame.Surface) -> None:
-        # must override
+        # Must be implemented by child classes
         pass
 
     def update(self, dt: float) -> None:
-        # must override
+        # Must be implemented by child classes
         pass
 
     def collides_with(self, other) -> bool:
-        # Get distance between this object and the other object
+
+        # Calculate distance between object centers
         distance = self.position.distance_to(other.position)
 
-        # Collision happens when distance is smaller than both radiuses combined
+        # Objects collide when distance is less than or equal to combined radii
         return distance <= self.radius + other.radius

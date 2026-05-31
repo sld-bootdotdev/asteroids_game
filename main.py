@@ -91,8 +91,8 @@ def main():
                 if asteroid.collides_with(shot):
                     # Log asteroid hit event
                     log_event("asteroid_shot")
-                    # Remove asteroid from all sprite groups
-                    asteroid.kill()
+                    # Split asteroid into smaller asteroids
+                    asteroid.split()
                     # Remove shot from all sprite groups
                     shot.kill()
 
