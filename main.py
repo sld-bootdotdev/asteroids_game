@@ -22,6 +22,9 @@ def main():
     # Delta time keeps movement and rotation consistent across different FPS
     dt = 0.0
 
+    # Player score
+    score = 0
+
     # Store objects that need update logic every frame
     updatable = pygame.sprite.Group()
 
@@ -70,6 +73,15 @@ def main():
         # Fill screen with black before drawing new frame
         screen.fill("black")
 
+        # Render score HUD
+        try:
+            font = pygame.font.Font(None, 36)
+            score_surf = font.render(f"Score: {score}", True, (255, 255, 255))
+            screen.blit(score_surf, (10, 10))
+        except Exception:
+            # If fonts aren't available for some reason, skip drawing the HUD
+            pass
+
         for obj in asteroids:
             print(type(obj))
             # Check if asteroid collides with the player
@@ -91,6 +103,10 @@ def main():
                 if asteroid.collides_with(shot):
                     # Log asteroid hit event
                     log_event("asteroid_shot")
+                    # Award flat points for destroying an asteroid
+                    points = 100
+                    score += points
+                    log_event("score", points=points, total=score)
                     # Split asteroid into smaller asteroids
                     asteroid.split()
                     # Remove shot from all sprite groups
