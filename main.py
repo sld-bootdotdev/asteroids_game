@@ -24,6 +24,10 @@ def main():
 
     # Player score
     score = 0
+    # Combo/multiplier state
+    combo_count = 0
+    last_hit_time = 0.0
+    # Note: combo constants are in `constants.py`
 
     # Store objects that need update logic every frame
     updatable = pygame.sprite.Group()
@@ -78,6 +82,10 @@ def main():
             font = pygame.font.Font(None, 36)
             score_surf = font.render(f"Score: {score}", True, (255, 255, 255))
             screen.blit(score_surf, (10, 10))
+            # Render combo multiplier when active
+            if combo_count > 1:
+                mult_surf = font.render(f"x{combo_count}", True, (255, 200, 0))
+                screen.blit(mult_surf, (10 + score_surf.get_width() + 8, 10))
         except Exception:
             # If fonts aren't available for some reason, skip drawing the HUD
             pass
@@ -103,10 +111,20 @@ def main():
                 if asteroid.collides_with(shot):
                     # Log asteroid hit event
                     log_event("asteroid_shot")
-                    # Award flat points for destroying an asteroid
-                    points = 100
+                    # Combo logic: increase combo if hits are close in time
+                    now_s = pygame.time.get_ticks() / 1000.0
+                    if now_s - last_hit_time <= COMBO_TIMEOUT_SECONDS:
+                        combo_count = min(combo_count + 1, COMBO_MAX)
+                    else:
+                        combo_count = 1
+                    last_hit_time = now_s
+
+                    # Award points scaled by current combo multiplier
+                    points = BASE_POINTS * combo_count
                     score += points
-                    log_event("score", points=points, total=score)
+                    log_event(
+                        "score", points=points, total=score, multiplier=combo_count
+                    )
                     # Split asteroid into smaller asteroids
                     asteroid.split()
                     # Remove shot from all sprite groups
