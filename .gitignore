@@ -12,3 +12,5 @@ wheels/
 # Game save/log files
 game_state.json
 game_events.json
+game_state.jsonl
+game_events.jsonl
