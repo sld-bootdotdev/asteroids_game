@@ -83,6 +83,19 @@ def main():
             # Call each object's draw method to render it on the screen
             obj.draw(screen)
 
+        # Check every asteroid against every shot
+        for asteroid in asteroids:
+            # Loop through all active shots
+            for shot in shots:
+                # Check if shot collided with asteroid
+                if asteroid.collides_with(shot):
+                    # Log asteroid hit event
+                    log_event("asteroid_shot")
+                    # Remove asteroid from all sprite groups
+                    asteroid.kill()
+                    # Remove shot from all sprite groups
+                    shot.kill()
+
         # Update display
         pygame.display.flip()
 
