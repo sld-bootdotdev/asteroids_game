@@ -18,6 +18,11 @@ class Asteroid(CircleShape):
     def update(self, dt):
         # Add movement based on velocity and delta time
         self.position += self.velocity * dt
+        # Wrap around screen edges
+        try:
+            self.wrap_around_screen()
+        except Exception:
+            pass
 
     def split(self):
 

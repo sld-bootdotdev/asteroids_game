@@ -21,14 +21,14 @@ class AsteroidField(pygame.sprite.Sprite):
             # Move right
             pygame.Vector2(1, 0),
             # Spawn outside left side of screen
-            lambda y: pygame.Vector2(-ASTEROID_MAX_RADIUS, y * SCREEN_HEIGHT),
+            lambda y: pygame.Vector2(-ASTEROID_SPAWN_MARGIN, y * SCREEN_HEIGHT),
         ),
         (
             # Move left
             pygame.Vector2(-1, 0),
             # Spawn outside right side of screen
             lambda y: pygame.Vector2(
-                SCREEN_WIDTH + ASTEROID_MAX_RADIUS,
+                SCREEN_WIDTH + ASTEROID_SPAWN_MARGIN,
                 y * SCREEN_HEIGHT,
             ),
         ),
@@ -38,7 +38,7 @@ class AsteroidField(pygame.sprite.Sprite):
             # Spawn above screen
             lambda x: pygame.Vector2(
                 x * SCREEN_WIDTH,
-                -ASTEROID_MAX_RADIUS,
+                -ASTEROID_SPAWN_MARGIN,
             ),
         ),
         (
@@ -47,7 +47,7 @@ class AsteroidField(pygame.sprite.Sprite):
             # Spawn below screen
             lambda x: pygame.Vector2(
                 x * SCREEN_WIDTH,
-                SCREEN_HEIGHT + ASTEROID_MAX_RADIUS,
+                SCREEN_HEIGHT + ASTEROID_SPAWN_MARGIN,
             ),
         ),
     ]

@@ -70,6 +70,12 @@ class Player(CircleShape):
         if keys[pygame.K_SPACE]:
             self.shoot()
 
+        # Wrap player around screen after movement
+        try:
+            self.wrap_around_screen()
+        except Exception:
+            pass
+
     def move(self, dt):
         # Base direction vector
         unit_vector = pygame.Vector2(0, 1)
